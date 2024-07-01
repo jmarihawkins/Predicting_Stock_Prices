@@ -6,6 +6,7 @@ import pickle
 import plotly.express as px
 from keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
+import yfinance as yf
 
 # Load the models and scalers
 models = {}
@@ -29,26 +30,29 @@ for ticker in tickers:
     with open(f'Scalers/{ticker}_scaler.pkl', 'rb') as f:
         scalers[ticker] = pickle.load(f)
 
+# Load historical data for all tickers
+historical_data = {}
+for ticker in tickers:
+    historical_data[ticker] = pd.read_csv(f'data/{ticker}_historical_data.csv', index_col='Date', parse_dates=True)
+
 # Function to get prediction
-def predict_stock_price(ticker, start_date, end_date):
+def predict_stock_price(ticker, end_date):
     model = models[ticker]
     scaler = scalers[ticker]
     
-    # Calculate the number of days for prediction
-    num_days = (end_date - start_date).days
-
-    # Create an initial dummy data array for the past 90 days (look-back period)
-    dummy_data = np.zeros((90, 1))  # 90 days of initial data
+    # Get historical data for lookback period
+    start_date = pd.Timestamp.today()
+    historical_prices = historical_data[ticker].loc[:start_date]['Close'].values.reshape(-1, 1)
     
-    # Scale the initial dummy data
-    scaled_data = scaler.transform(dummy_data)
+    # Scale the historical data
+    scaled_data = scaler.transform(historical_prices)
     
     predictions = []
-    date_range = pd.date_range(start=start_date, periods=num_days + 1)
+    date_range = pd.date_range(start=start_date, end=end_date)
     
-    for _ in range(num_days + 1):
-        X_pred = np.reshape(scaled_data[-90:], (1, 90, 1))
-        pred_price = model.predict(X_pred)
+    for _ in range(len(date_range)):
+        X_pred = np.reshape(scaled_data[-1825:], (1, 1825, 1))
+        pred_price = model.predict(X_pred, verbose=0)
         pred_price_unscaled = scaler.inverse_transform(pred_price)
         
         predictions.append(pred_price_unscaled[0, 0])
@@ -70,9 +74,12 @@ st.title('Stock Price Prediction App')
 # Dropdown for selecting company
 selected_ticker = st.selectbox('Select Company', [company_names[ticker] for ticker in tickers])
 
-# Date input for start and end dates
-start_date = st.date_input('Start Date', datetime.date.today())
-end_date = st.date_input('End Date', datetime.date.today() + datetime.timedelta(days=30))
+# Fixed start date
+start_date = datetime.date.today()
+st.write(f"Start Date: {start_date}")
+
+# Date input for end date
+end_date = st.date_input('End Date', start_date + datetime.timedelta(days=30))
 
 # Check date constraints
 if start_date > end_date:
@@ -87,14 +94,18 @@ if st.button('Predict'):
         if proceed == 'Cancel':
             st.stop()
         elif proceed == 'Proceed':
-            predictions = predict_stock_price(selected_ticker_code, start_date, end_date)
+            predictions = predict_stock_price(selected_ticker_code, end_date)
             fig = px.line(predictions, x='Date', y='Predicted Close Price', title=f'Predicted Stock Prices for {selected_ticker}')
             fig.update_traces(mode='lines+markers', hovertemplate='Date: %{x}<br>Price: %{y:.2f}')
             st.plotly_chart(fig)
             st.write(predictions)
     else:
-        predictions = predict_stock_price(selected_ticker_code, start_date, end_date)
+        predictions = predict_stock_price(selected_ticker_code, end_date)
         fig = px.line(predictions, x='Date', y='Predicted Close Price', title=f'Predicted Stock Prices for {selected_ticker}')
         fig.update_traces(mode='lines+markers', hovertemplate='Date: %{x}<br>Price: %{y:.2f}')
         st.plotly_chart(fig)
         st.write(predictions)
+
+
+
+
