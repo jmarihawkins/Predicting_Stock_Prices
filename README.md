@@ -30,6 +30,20 @@ Long Short-Term Memory (LSTM) is a type of recurrent neural network (RNN) that i
         - Enhances user experience by making predictions easily accessible.
         - Saves predictions for future reference.
 
+4. **Saving Models**
+    - **Purpose**: Save the trained LSTM model to disk.
+    - **Key Points**:
+        - Ensures the model can be reused without retraining.
+        - Facilitates deployment and scalability.
+        - Vital for maintaining model consistency across different runs and users.
+
+5. **Saving Scalers**
+    - **Purpose**: Save the data scalers used during preprocessing.
+    - **Key Points**:
+        - Maintains the same scaling factors for future predictions.
+        - Ensures consistency in data transformation.
+        - Vital for accurate predictions, as differences in scaling can lead to significant errors.
+
 ## Data Sources
 - **Yahoo Finance API**: Supplies historical stock data and additional financial indicators.
 
@@ -67,10 +81,29 @@ Long Short-Term Memory (LSTM) is a type of recurrent neural network (RNN) that i
     - **Why it is in the code**: Measures the accuracy and reliability of the model's predictions.
     - **Additional Point**: Generates performance reports and visualizations.
 
+7. **save_model()**
+    - **What it is**: Function to save the trained LSTM model to disk.
+    - **Why it is in the code**: Allows reuse of the model without retraining, saving time and computational resources.
+    - **Additional Point**: Facilitates deployment and sharing of the model.
+
+8. **save_scaler()**
+    - **What it is**: Function to save the data scalers used during preprocessing.
+    - **Why it is in the code**: Ensures consistency in data scaling for future predictions.
+    - **Additional Point**: Critical for maintaining prediction accuracy, as different scalings can lead to errors.
+
 ### `stock_price_prediction_app.py`
 This script focuses on creating an interactive application for predicting future stock prices. It uses several key functions to load the pre-trained LSTM model, make predictions based on user inputs, and visualize the predicted stock prices. The application enhances user experience by providing an easy-to-use interface and clear visual representations of the predictions.
 
 The script starts by loading the pre-trained LSTM model using the `load_model()` function, ensuring that the model is ready for making predictions. The `predict_stock_prices()` function takes user inputs, such as the stock ticker and the desired prediction date range, and uses the LSTM model to generate future stock price predictions. These predictions are then plotted alongside historical data using the `plot_predictions()` function, providing a visual comparison that helps users understand the trends and forecasts. Finally, the `run_app()` function initializes and runs the interactive application, handling user inputs and displaying the predictions.
+
+### Streamlit
+Streamlit is a powerful and easy-to-use framework for building interactive web applications with Python. It was chosen for this project because it allows for rapid development and deployment of data-driven applications. Streamlit's simplicity in turning data scripts into shareable web apps without requiring extensive knowledge of web development makes it ideal for this project.
+
+- **Benefits**: Streamlit simplifies the creation of interactive and user-friendly applications, making it easy to visualize data and predictions. It supports rapid prototyping and deployment, which is crucial for iterative development.
+- **Additional Points**:
+    - **Integration**: Streamlit seamlessly integrates with Python, allowing for direct use of Python functions and libraries.
+    - **Customization**: Provides various widgets and customization options to enhance user interaction.
+    - **Community Support**: A large and active community provides a wealth of resources, tutorials, and extensions to enhance functionality.
 
 ### Individual Functions
 
