@@ -9,7 +9,7 @@ Long Short-Term Memory (LSTM) is a type of recurrent neural network (RNN) that i
 
 ### Financial Indicator(s)
 
-In this project, the closing price was chosen as the only indicator for predicting stock prices using Long Short-Term Memory (LSTM) networks. The closing price is a key indicator that summarizes the market sentiment at the end of each trading day. Using LSTM networks, which are well-suited for sequence prediction due to their ability to remember long-term dependencies and handle the vanishing gradient problem, the closing price provides a focused and simplified approach for stock price prediction.
+In this project, the **closing price** was chosen as the only indicator for predicting stock prices using Long Short-Term Memory (LSTM) networks. The closing price is a key indicator that summarizes the market sentiment at the end of each trading day. Using LSTM networks, which are well-suited for sequence prediction due to their ability to remember long-term dependencies and handle the vanishing gradient problem, the closing price provides a focused and simplified approach for stock price prediction.
 
 #### Pros:
 - **Historical Trends**: Reflects the overall market sentiment and trend for the day.
