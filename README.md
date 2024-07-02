@@ -22,8 +22,19 @@ In this project, the closing price was chosen as the only indicator for predicti
 - **Missing Insights**: Ignores other potentially valuable indicators such as trading volume and the day's high and low prices.
 - **Potential for Improved Accuracy**: Other indicators might help capture more complex patterns, potentially improving the model's prediction accuracy.
 
-In conclusion, while using only the closing price simplifies the model and helps in avoiding overfitting, it also comes with the trade-off of missing out on additional insights that other indicators might provide. However, for the purpose of this project, the closing price serves as a reliable and straightforward indicator for predicting stock prices using LSTM networks.
+In conclusion, the closing price was used exclusively due to several compelling reasons:
 
+1. **Dominance in Technical Analysis**: The closing price is widely regarded as the most critical price in technical analysis because it represents the final consensus of the market for the trading day. Many technical trading strategies and indicators are based on closing prices, emphasizing its importance.
+
+2. **Robustness in Trend Detection**: Historical trends and patterns in closing prices have been shown to be robust indicators of future price movements. Studies have demonstrated that closing prices tend to smooth out intra-day volatility, providing a clearer signal for long-term trend detection.
+
+3. **Practicality and Proven Success**: Numerous successful financial models and strategies rely solely on closing prices. For instance, many moving average strategies, which are simple yet effective, use only the closing price to generate buy and sell signals.
+
+4. **Computational Efficiency**: Using only the closing price reduces the computational complexity of the model. This is particularly important when training LSTM networks, as it allows for faster training times and requires less computational power, making the approach more feasible and efficient.
+
+5. **Consistency and Reliability**: Closing prices are consistently available and reliable across different data sources, ensuring data quality and consistency. This reliability is crucial for building a dependable prediction model.
+
+By focusing on the closing price, we ensure that the model is both effective and efficient, leveraging the most significant indicator in stock price analysis while avoiding unnecessary complexity and potential overfitting.
 
 ### Main Functions
 1. **Data Extraction and Cleaning**
