@@ -7,6 +7,24 @@ The purpose of this project is to predict stock prices for specific companies or
 ### Long Short-Term Memory (LSTM) Networks
 Long Short-Term Memory (LSTM) is a type of recurrent neural network (RNN) that is well-suited for sequence prediction problems. It is chosen for this project due to its ability to remember long-term dependencies and handle the vanishing gradient problem, which is crucial for predicting stock prices based on historical data. LSTMs have three types of gates (input, forget, and output) that regulate the flow of information, making them powerful for time series prediction.
 
+### Financial Indicator(s)
+
+In this project, the closing price was chosen as the only indicator for predicting stock prices using Long Short-Term Memory (LSTM) networks. The closing price is a key indicator that summarizes the market sentiment at the end of each trading day. Using LSTM networks, which are well-suited for sequence prediction due to their ability to remember long-term dependencies and handle the vanishing gradient problem, the closing price provides a focused and simplified approach for stock price prediction.
+
+#### Pros:
+- **Historical Trends**: Reflects the overall market sentiment and trend for the day.
+- **Reduced Complexity**: Simplifies the model by using a single indicator, making it easier to train and understand.
+- **Correlation**: Many other indicators are highly correlated with the closing price, so including them might not add significant value.
+- **Avoids Overfitting**: Reduces the risk of overfitting by limiting the number of input features, ensuring the model generalizes better to new data.
+
+#### Cons:
+- **Lack of Context**: Does not capture intra-day price movements or trading volume.
+- **Missing Insights**: Ignores other potentially valuable indicators such as trading volume and the day's high and low prices.
+- **Potential for Improved Accuracy**: Other indicators might help capture more complex patterns, potentially improving the model's prediction accuracy.
+
+In conclusion, while using only the closing price simplifies the model and helps in avoiding overfitting, it also comes with the trade-off of missing out on additional insights that other indicators might provide. However, for the purpose of this project, the closing price serves as a reliable and straightforward indicator for predicting stock prices using LSTM networks.
+
+
 ### Main Functions
 1. **Data Extraction and Cleaning**
     - **Purpose**: Extract historical stock data from sources such as Yahoo Finance API, clean and transform the data for model training.
