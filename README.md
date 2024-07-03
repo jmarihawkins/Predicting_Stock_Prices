@@ -56,8 +56,10 @@ By focusing on the closing price, we ensure that the model is both effective and
         
     **Antoine: XGBoost, SVG, and LR Model on Stock Data**
 
+   **Leigh: Prophet Model on Stock Data**
+
     **Priscilla: XGBoost, SVG, and LR Model on Stock Data And Consumer Data**
-    - **Purpose**: Merge the stock data with the survey of consumers data to retest model accuracy with those consumer features added.
+    - **Purpose**: Data cleanup to merge the stock data with the survey of consumers data. The rationale behind retesting the stock data model with the inclusion of new consumer features is to determine if these additional variables enhance the predictive accuracy of stock prices.
       - Consumer Features: Index of Consumer Sentiment, Index of Consumer Expectations, Index of Current Condition, Probability of Adequate Retirement Income, Probability of Increase in Stock Market in Next Year, Current Value of Stock Market Investments.
     - **Models**:
        - Support Vector Regression: Performed best on Pfizer Stock Data with a low mean error score and a high R2 score of 0.90. Model performed adequately on AAPL and XOM stock with an accuracy of about 76%-80%. The model was underfit, with an accuracy score below 50% for 5/10 of the stocks tested. 
