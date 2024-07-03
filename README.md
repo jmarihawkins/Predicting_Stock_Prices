@@ -45,28 +45,39 @@ By focusing on the closing price, we ensure that the model is both effective and
         - Displays data before and after cleaning for transparency.
 
 2. **Model Training and Evaluation**
+**JMari Code**
     - **Purpose**: Initialize, train, and evaluate LSTM models for predicting stock prices.
     - **Key Points**:
         - Utilizes LSTM's ability to handle sequential data for accurate predictions.
         - Demonstrates meaningful predictive power with at least 75% classification accuracy or 0.80 R-squared.
         - Documents the model optimization and evaluation process.
         - Displays overall model performance.
+**Antoine Code**
+**Priscilla Code**
+    - **Purpose**: Merge the stock data with the survey of consumers data to retest model accuracy with those consumer features added.
+      - Consumer Features: Index of Consumer Sentiment, Index of Consumer Expectations, Index of Current Condition, Probability of Adequate Retirement Income, Probability of Increase in Stock Market in Next Year, Current Value of Stock Market Investments.
+    - **Models**:
+       - Support Vector Regression: Performed best on Pfizer Stock Data with a low mean error score and a high R2 score of 0.90. Model performed adequately on AAPL and XOM stock with an accuracy of about 76%-80%. The model was underfit, with an accuracy score below 50% for 5/10 of the stocks tested. 
+       - XGBoost: The XGBoost model results indicate an overfitting problem, as evidenced by the near-perfect R² values of 1.0 and extremely low Mean Squared Error (MSE) values for all stocks. I tried regularization Techniques by tuning parameters and using a different scaler. However, even when those techniques were applied to the model, the results were still overfit. Overall, the XGBoost model is not a good predictor of close value for the given stock data and date range. 
+       - Linear Regression: The highest performing stocks were AAPL and MSFT with around 76% accuracy for both. Apart from APPL, MSFT, NVDA and XOM, the model performed poorly on all other stocks, incurring a negative R2 value for four out of ten stocks. In general, the linear regression did not accomplish an accuracy score over 77% for any stocks and it seems to have struggled with the given data.
+    - **Conclusion**: In general, the SVR model generally performed better than the LR model and the XGBoost model, providing higher R² values and lower MSE across most stocks. This indicates that the SVR model is more effective at capturing the complex patterns in the stock and consumer data, making it a better choice for this dataset. However, the SVR model still has room for improvement and could benefit from further tuning of the SVR model parameters.
 
-3. **Interactive Prediction App**
+
+4. **Interactive Prediction App**
     - **Purpose**: Provide an interactive interface for users to input specific dates and parameters to see predicted stock prices.
     - **Key Points**:
         - Allows predictions for any given stock for up to 1 year in advance.
         - Enhances user experience by making predictions easily accessible.
         - Saves predictions for future reference.
 
-4. **Saving Models**
+5. **Saving Models**
     - **Purpose**: Save the trained LSTM model to disk.
     - **Key Points**:
         - Ensures the model can be reused without retraining.
         - Facilitates deployment and scalability.
         - Vital for maintaining model consistency across different runs and users.
 
-5. **Saving Scalers**
+6. **Saving Scalers**
     - **Purpose**: Save the data scalers used during preprocessing.
     - **Key Points**:
         - Maintains the same scaling factors for future predictions.
@@ -75,6 +86,8 @@ By focusing on the closing price, we ensure that the model is both effective and
 
 ## Data Sources
 - **Yahoo Finance API**: Supplies historical stock data and additional financial indicators.
+- **Survey of Consumers**: The Surveys are conducted at the University of Michigan. Founded in 1946, the surveys have long stressed the important influence of consumer spending and saving decisions in determining the course of the national economy. 
+
 
 ## Individual Functions
 
