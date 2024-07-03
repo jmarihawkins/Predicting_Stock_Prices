@@ -44,9 +44,9 @@ By focusing on the closing price, we ensure that the model is both effective and
         - Converts column names to common terms for ease of understanding.
         - Displays data before and after cleaning for transparency.
 
-2. **Model Training and Evaluation**
+2. **Model Training, Evaluation and Comparison**
 
-    **JMari Code**
+    **JMari: LSTM Neural Network Model on Stock Data**
     - **Purpose**: Initialize, train, and evaluate LSTM models for predicting stock prices.
     - **Key Points**:
         - Utilizes LSTM's ability to handle sequential data for accurate predictions.
@@ -54,9 +54,9 @@ By focusing on the closing price, we ensure that the model is both effective and
         - Documents the model optimization and evaluation process.
         - Displays overall model performance.
         
-    **Antoine Code**
+    **Antoine: XGBoost, SVG, and LR Model on Stock Data**
 
-    **Priscilla Code**
+    **Priscilla: XGBoost, SVG, and LR Model on Stock Data And Consumer Data**
     - **Purpose**: Merge the stock data with the survey of consumers data to retest model accuracy with those consumer features added.
       - Consumer Features: Index of Consumer Sentiment, Index of Consumer Expectations, Index of Current Condition, Probability of Adequate Retirement Income, Probability of Increase in Stock Market in Next Year, Current Value of Stock Market Investments.
     - **Models**:
