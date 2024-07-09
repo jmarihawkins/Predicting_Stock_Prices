@@ -3,86 +3,125 @@
 ## Summary
 The purpose of this project is to predict stock prices for specific companies or a set of companies using historical stock data and related financial indicators. By leveraging machine learning techniques, particularly Long Short-Term Memory (LSTM) networks, we aim to provide investors with a tool to make informed decisions about buying or selling stocks. This project involves extracting, cleaning, and transforming historical stock data, training machine learning models, and developing an interactive application for users to predict stock prices for up to one year in advance.
 
+## Libraries Used
+The following libraries were used for data processing, model training, evaluation, and visualization:
+- import yfinance as yf  # For downloading stock data
+- import pandas as pd  # For data manipulation and analysis
+- from datetime import datetime  # For handling date and time data
+- import numpy as np  # For numerical operations
+- import matplotlib.pyplot as plt  # For data visualization
+- from xgboost import XGBRegressor  # For implementing the XGBoost regression model
+- from sklearn.preprocessing import StandardScaler, MinMaxScaler  # For feature scaling
+- from sklearn.decomposition import PCA  # For principal component analysis
+- from sklearn.model_selection import train_test_split, GridSearchCV  # For splitting data and hyperparameter tuning
+- from sklearn.linear_model import LinearRegression  # For linear regression modeling
+- from sklearn.metrics import balanced_accuracy_score, accuracy_score, classification_report  # For classification metrics
+- from sklearn.svm import SVR  # For support vector regression modeling
+- from sklearn.metrics import mean_squared_error, r2_score  # For regression metrics
+- import matplotlib.pyplot as plt  # For data visualization
+
 ## Functionality
+### Model Comparison 
+In this project, we aimed to predict stock prices using various machine learning models and compare their performance to a Long Short-Term Memory (LSTM) neural network model. 
+
+
+### Prophet 
+
+### Support Vector Regression:
+### XGBoost
+### Linear Regression:
 ### Long Short-Term Memory (LSTM) Networks
 Long Short-Term Memory (LSTM) is a type of recurrent neural network (RNN) that is well-suited for sequence prediction problems. It is chosen for this project due to its ability to remember long-term dependencies and handle the vanishing gradient problem, which is crucial for predicting stock prices based on historical data. LSTMs have three types of gates (input, forget, and output) that regulate the flow of information, making them powerful for time series prediction.
 
-### Financial Indicator(s)
+## Target Variable
+### Financial Indicator
+In this project, the **closing price** was chosen as the target variable for predicting stock prices using various ML Models, including Linear Regression and Long Short-Term Memory (LSTM) networks. The closing price is a key indicator that summarizes the market sentiment at the end of each trading day.
 
-In this project, the **closing price** was chosen as the only indicator for predicting stock prices using Long Short-Term Memory (LSTM) networks. The closing price is a key indicator that summarizes the market sentiment at the end of each trading day. Using LSTM networks, which are well-suited for sequence prediction due to their ability to remember long-term dependencies and handle the vanishing gradient problem, the closing price provides a focused and simplified approach for stock price prediction.
-
-#### Pros:
+##### Pros:
 - **Historical Trends**: Reflects the overall market sentiment and trend for the day.
 - **Reduced Complexity**: Simplifies the model by using a single indicator, making it easier to train and understand.
 - **Correlation**: Many other indicators are highly correlated with the closing price, so including them might not add significant value.
 - **Avoids Overfitting**: Reduces the risk of overfitting by limiting the number of input features, ensuring the model generalizes better to new data.
 
-#### Cons:
+##### Cons:
 - **Lack of Context**: Does not capture intra-day price movements or trading volume.
 - **Missing Insights**: Ignores other potentially valuable indicators such as trading volume and the day's high and low prices.
 - **Potential for Improved Accuracy**: Other indicators might help capture more complex patterns, potentially improving the model's prediction accuracy.
 
-In conclusion, the closing price was used exclusively due to several compelling reasons:
-
-1. **Dominance in Technical Analysis**: The closing price is widely regarded as the most critical price in technical analysis because it represents the final consensus of the market for the trading day. Many technical trading strategies and indicators are based on closing prices, emphasizing its importance.
-
-2. **Robustness in Trend Detection**: Historical trends and patterns in closing prices have been shown to be robust indicators of future price movements. Studies have demonstrated that closing prices tend to smooth out intra-day volatility, providing a clearer signal for long-term trend detection.
-
-3. **Practicality and Proven Success**: Numerous successful financial models and strategies rely solely on closing prices. For instance, many moving average strategies, which are simple yet effective, use only the closing price to generate buy and sell signals.
-
-4. **Computational Efficiency**: Using only the closing price reduces the computational complexity of the model. This is particularly important when training LSTM networks, as it allows for faster training times and requires less computational power, making the approach more feasible and efficient.
-
-5. **Consistency and Reliability**: Closing prices are consistently available and reliable across different data sources, ensuring data quality and consistency. This reliability is crucial for building a dependable prediction model.
-
-By focusing on the closing price, we ensure that the model is both effective and efficient, leveraging the most significant indicator in stock price analysis while avoiding unnecessary complexity and potential overfitting.
-
 ### Main Functions
 1. **Data Extraction and Cleaning**
-    - **Purpose**: Extract historical stock data from sources such as Yahoo Finance API, clean and transform the data for model training.
+    - **Purpose**: Extract historical stock data from sources (Yahoo Finance API and Survey of Consumers) clean and transform the data for model training.
     - **Key Points**:
         - Merges data from multiple sources.
         - Converts column names to common terms for ease of understanding.
         - Displays data before and after cleaning for transparency.
-
+        
 2. **Model Training, Evaluation and Comparison**
 
-    **JMari: LSTM Neural Network Model on Stock Data**
-    - **Purpose**: Initialize, train, and evaluate LSTM models for predicting stock prices.
-    - **Key Points**:
-        - Utilizes LSTM's ability to handle sequential data for accurate predictions.
-        - Demonstrates meaningful predictive power with at least 75% classification accuracy or 0.80 R-squared.
-        - Documents the model optimization and evaluation process.
-        - Displays overall model performance.
+   **JMari: LSTM Neural Network Model on Stock Data**
+   - **Purpose**: Initialize, train, and evaluate LSTM models for predicting stock prices.
+     - **Key Points**:
+       - Utilizes LSTM's ability to handle sequential data for accurate predictions.
+       - Demonstrates meaningful predictive power with at least 75% classification accuracy or 0.80 R-squared.
+       - Documents the model optimization and evaluation process.
+       - Displays overall model performance.
         
-    **Antoine: XGBoost, SVG, and LR Model on Stock Data**
+   **Antoine: XGBoost, SVG, and LR Model on Stock Data**
+   - **Purpose**: To use the same Yahoo Finance data used to train the LSTM and train on other regression models. 
+   - **Results**: The results of our model evaluations are summarized below. The models were evaluated on a set of stocks, and their performance metrics are compared. 
+   - **Models**:
+     - **Linear Regression** performed well with a low MSE and high R2 score across most stocks. It provided a solid baseline for comparison.
+     - **SVR** showed higher MSE and RMSE values compared to other models, indicating less accuracy in predictions.
+     - **XGBoost** demonstrated competitive performance with low MSE and high R2 scores, proving to be a robust model for stock price prediction.
+     - **LSTM** outperformed the other models, achieving the lowest MSE and RMSE values, making it the most accurate model for this task.
+
+   **Example Results for AAPL:**
+
+   | Model             | RMSE   | MAE    | MAPE   | R2     | MSE     | 
+   |-------------------|--------|--------|--------|--------|---------| 
+   | Linear Regression | 0.167  | 0.127  | 0.33%  | 0.99999| 0.02782 | 
+   | SVR               | 11.452 | 5.752  | 12.69% | 0.96346| 131.13818| 
+   | XGBoost           | 0.819  | 0.495  | 0.77%  | 0.99981| 0.67115 | 
+   | LSTM              | 0.089  | 0.067  | 0.11%  | 0.99999| 0.00791 | 
+    
+   - **Conclusion**: While traditional machine learning models like Linear Regression and XGBoost performed well in predicting stock prices, the LSTM neural network provided the most accurate predictions. This highlights the strength of LSTM in capturing temporal dependencies in stock price data, making it a superior choice for this type of time-series prediction task.
 
    **Leigh: Prophet Model on Stock Data**
 
-    **Priscilla: XGBoost, SVG, and LR Model on Stock Data And Consumer Data**
+   **Priscilla: XGBoost, SVG, and LR Model on Stock Data And Consumer Data**
     - **Purpose**: Data cleanup to merge the stock data with the survey of consumers data. The rationale behind retesting the stock data model with the inclusion of new consumer features is to determine if these additional variables enhance the predictive accuracy of stock prices.
       - Consumer Features: Index of Consumer Sentiment, Index of Consumer Expectations, Index of Current Condition, Probability of Adequate Retirement Income, Probability of Increase in Stock Market in Next Year, Current Value of Stock Market Investments.
     - **Models**:
-       - Support Vector Regression: Performed best on Pfizer Stock Data with a low mean error score and a high R2 score of 0.90. Model performed adequately on AAPL and XOM stock with an accuracy of about 76%-80%. The model was underfit, with an accuracy score below 50% for 5/10 of the stocks tested. 
-       - XGBoost: The XGBoost model results indicate an overfitting problem, as evidenced by the near-perfect R² values of 1.0 and extremely low Mean Squared Error (MSE) values for all stocks. I tried regularization Techniques by tuning parameters and using a different scaler. However, even when those techniques were applied to the model, the results were still overfit. Overall, the XGBoost model is not a good predictor of close value for the given stock data and date range. 
-       - Linear Regression: The highest performing stocks were AAPL and MSFT with around 76% accuracy for both. Apart from APPL, MSFT, NVDA and XOM, the model performed poorly on all other stocks, incurring a negative R2 value for four out of ten stocks. In general, the linear regression did not accomplish an accuracy score over 77% for any stocks and it seems to have struggled with the given data.
+      - **Support Vector Regression**: Performed best on Pfizer Stock Data with a low mean error score (MSE of 6.62) and a high R² score of 0.90. Model performed adequately on AAPL (MSE of 410.58) and XOM (MSE of 168.19) stock with an accuracy of about 76%-80%. The model was underfit, with an accuracy score below 50% for 5/10 of the stocks tested.
+      - **XGBoost**: The XGBoost model results indicate an overfitting problem, as evidenced by the near-perfect R² values of 1.0 and extremely low Mean Squared Error (MSE) values for all stocks. I tried regularization techniques by tuning parameters and using a different scaler. However, even when those techniques were applied to the model, the results were still overfit. Overall, the XGBoost model is not a good predictor of close value for the given stock data and date range.
+      - **Linear Regression**: The highest performing stocks were AAPL and MSFT with around 76% accuracy for both. Apart from APPL (MSE of 468.33), MSFT (MSE of 1508.76), NVDA (MSE of 147.26), and XOM (MSE of 328.27), the model performed poorly on all other stocks, incurring a negative R² value for four out of ten stocks. In general, the linear regression did not accomplish an accuracy score over 77% for any stocks and it seems to have struggled with the given data.
     - **Conclusion**: In general, the SVR model generally performed better than the LR model and the XGBoost model, providing higher R² values and lower MSE across most stocks. This indicates that the SVR model is more effective at capturing the complex patterns in the stock and consumer data, making it a better choice for this dataset. However, the SVR model still has room for improvement and could benefit from further tuning of the SVR model parameters.
 
 
-4. **Interactive Prediction App**
+
+4. **Evaluation Metrics**
+    To assess the performance of each model, we used the following metrics:
+    - **Mean Squared Error (MSE)**: Measures the average of the squares of the errors between actual and predicted values.
+    - **Root Mean Squared Error (RMSE)**: The square root of the MSE, providing an error metric in the same unit as the target variable.
+    - **Mean Absolute Error (MAE)**: The average of the absolute errors between actual and predicted values.
+    - **Mean Absolute Percentage Error (MAPE)**: The average of the absolute percentage errors between actual and predicted values.
+    - **R-squared (R2)**: The proportion of the variance in the dependent variable that is predictable from the independent variables.
+
+5. **Interactive Prediction App**
     - **Purpose**: Provide an interactive interface for users to input specific dates and parameters to see predicted stock prices.
     - **Key Points**:
         - Allows predictions for any given stock for up to 1 year in advance.
         - Enhances user experience by making predictions easily accessible.
         - Saves predictions for future reference.
 
-5. **Saving Models**
+6. **Saving Models**
     - **Purpose**: Save the trained LSTM model to disk.
     - **Key Points**:
         - Ensures the model can be reused without retraining.
         - Facilitates deployment and scalability.
         - Vital for maintaining model consistency across different runs and users.
 
-6. **Saving Scalers**
+7. **Saving Scalers**
     - **Purpose**: Save the data scalers used during preprocessing.
     - **Key Points**:
         - Maintains the same scaling factors for future predictions.
