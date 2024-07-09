@@ -20,18 +20,14 @@ The following libraries were used for data processing, model training, evaluatio
 - from sklearn.metrics import mean_squared_error, r2_score  # For regression metrics
 - import matplotlib.pyplot as plt  # For data visualization
 
-## Functionality
-### Model Comparison 
+## Machine Learning Models
 In this project, we aimed to predict stock prices using various machine learning models and compare their performance to a Long Short-Term Memory (LSTM) neural network model. 
 
-
-### Prophet 
-
-### Support Vector Regression:
-### XGBoost
-### Linear Regression:
-### Long Short-Term Memory (LSTM) Networks
-Long Short-Term Memory (LSTM) is a type of recurrent neural network (RNN) that is well-suited for sequence prediction problems. It is chosen for this project due to its ability to remember long-term dependencies and handle the vanishing gradient problem, which is crucial for predicting stock prices based on historical data. LSTMs have three types of gates (input, forget, and output) that regulate the flow of information, making them powerful for time series prediction.
+- **Prophet:** Prophet is a forecasting tool developed by Facebook. It was used in this project due to its flexibility in modeling seasonal trends, its robustness to missing data, and its ability to provide intuitive parameter tuning. Prophet is particularly useful for predicting stock prices as it can effectively capture daily, weekly, and yearly seasonality along with holidays and other recurring events.
+- **Support Vector Regression:** Support Vector Regression (SVR) is a type of Support Vector Machine (SVM) used for regression tasks. It was chosen for this project because of its ability to handle non-linear relationships in the data. SVR aims to find the best-fit line within a specified margin of tolerance, making it robust to overfitting and suitable for predicting complex patterns in stock prices.
+- **XGBoost:** XGBoost was included in this project due to its ability to handle large datasets and its strong predictive power. XGBoost builds an ensemble of decision trees in a sequential manner, optimizing for the best splits and reducing errors at each step, making it a strong candidate for stock price prediction.
+- **Linear Regression:** Linear Regression was used in this project as a baseline model due to its simplicity and ease of interpretation. Despite its limitations in capturing non-linear relationships, Linear Regression provides a good starting point for understanding the basic trends in stock price data.
+- **Long Short-Term Memory (LSTM) Networks:** Long Short-Term Memory (LSTM) is a type of recurrent neural network (RNN) that is well-suited for sequence prediction problems. It is chosen for this project due to its ability to remember long-term dependencies and handle the vanishing gradient problem, which is crucial for predicting stock prices based on historical data. LSTMs have three types of gates (input, forget, and output) that regulate the flow of information, making them powerful for time series prediction.
 
 ## Target Variable
 ### Financial Indicator
@@ -213,7 +209,9 @@ Streamlit is a powerful and easy-to-use framework for building interactive web a
     - **Why it is in the code**: Initializes and launches the app for user interaction.
     - **Additional Point**: Handles user inputs and displays predictions in a user-friendly manner.
 
-## Project Findings
+## Conclusion: Model Comparison
+
+## The Best Model: LSTM 
 ### Pros
 - **High Predictive Power**: The LSTM models demonstrated high accuracy in predicting stock prices.
 - **User-Friendly Application**: The interactive app allows users to easily access predictions.
@@ -225,20 +223,17 @@ Streamlit is a powerful and easy-to-use framework for building interactive web a
 
 ### Initial Perceptions and Findings
 - **Effectiveness of LSTM**: LSTM networks proved effective in capturing the temporal dependencies in stock price data, resulting in accurate predictions.
-- **Data Integration**: Merging data from multiple sources enhanced the robustness of the dataset, leading to better model performance.
-- **User Engagement**: The interactive app was well-received, making it easier for users to explore stock price predictions.
+- **Data Integration**: Merging data from multiple stocks enhanced the robustness of the dataset, leading to better model performance.
+- **User Engagement**: The interactive app is functional and easy to use.
 
 ## Real-World Application
 This stock price prediction tool can be utilized by various professionals in the finance and investment sectors. Financial analysts can use the tool to forecast stock trends and provide insights to their clients. Portfolio managers can leverage the predictions to optimize their investment strategies and balance risks. Individual investors can use the app to make informed decisions about buying or selling stocks based on predicted future prices. Additionally, the tool can be beneficial for academic researchers studying market behavior and testing new financial theories. Overall, this project aims to enhance decision-making processes and contribute to more strategic investment planning.
 
 ## Instructions for Running the Code
-1. **Data Extraction and Cleaning**: Run the `main.ipynb` notebook to extract, clean, and transform the data.
-2. **Model Training and Evaluation**: Execute the Python script provided to train and evaluate the LSTM models.
-3. **Interactive Prediction App**: Use the `stock_price_prediction_app.py` to launch the interactive app for making stock price predictions.
+1. Ensure all necessary libraries are installed before running the scripts.
+2. Configure API keys for data extraction from Yahoo Finance.
+3. Follow the detailed comments and pseudocode in the provided scripts for further understanding and customization.
+4. **Data Extraction and Cleaning**: Run the `main.ipynb` notebook to extract, clean, and transform the data.
+5. **Model Training and Evaluation**: Execute the Python script provided to train and evaluate the models.
+6. **Interactive Prediction App**: Use the `stock_price_prediction_app.py` to launch the interactive app for making stock price predictions.
 
-### Additional Notes
-- Ensure all necessary libraries are installed before running the scripts.
-- Configure API keys for data extraction from Yahoo Finance.
-- Follow the detailed comments and pseudocode in the provided scripts for further understanding and customization.
-
-By following these instructions and utilizing the provided code, users can effectively predict stock prices and make informed investment decisions based on historical data and advanced machine learning techniques.
