@@ -100,7 +100,7 @@ In this project, the **closing price** was chosen as the target variable for pre
    | TSLA              |45850.34 |188.6232| 89.02% |  
 
    - **Conclusion**: In general, the Prophet model performed poorly compared to the LSMT model. It is evident that its performance metrics, including Mean Squared Error (MSE), Mean Absolute Error (MAE), and Mean Absolute Percentage Error (MAPE), fell significantly short compared to those achieved by the LSTM model. Across various stocks such as AAPL, MSFT, PG, NVDA, and TSLA, the Prophet model consistently exhibited higher errors and poorer accuracy, as highlighted by the provided data. The Prophet model's outcomes display its limitations in accurately forecasting stock prices compared to more complex models like LSTM in this specific dataset.
-   **Priscilla: XGBoost, SVG, and LR Model on Stock Data And Consumer Data**
+   - **Priscilla: XGBoost, SVG, and LR Model on Stock Data And Consumer Data**
     - **Purpose**: Data cleanup to merge the stock data with the survey of consumers data. The rationale behind retesting the stock data model with the inclusion of new consumer features is to determine if these additional variables enhance the predictive accuracy of stock prices.
       - Consumer Features: Index of Consumer Sentiment, Index of Consumer Expectations, Index of Current Condition, Probability of Adequate Retirement Income, Probability of Increase in Stock Market in Next Year, Current Value of Stock Market Investments.
     - **Models**:
