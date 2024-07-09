@@ -107,7 +107,7 @@ if start_date > end_date:
 if st.button('Predict'):
     selected_ticker_code = [key for key, value in company_names.items() if value == selected_ticker][0]
     if (end_date - datetime.date.today()).days > 365:
-        proceed = st.radio('Warning: Predictions are recommended within a year for better accuracy. Do you want to proceed?', ('Cancel', 'Proceed'))
+        proceed = st.radio('Warning: Predictions are recommended within a year for better accuracy. Are you sure that you want to proceed?', ('Cancel', 'Proceed'))
         if proceed == 'Cancel':
             st.stop()
         elif proceed == 'Proceed':
