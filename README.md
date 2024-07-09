@@ -19,7 +19,7 @@ The following libraries were used for data processing, model training, evaluatio
 - from sklearn.svm import SVR  # For support vector regression modeling
 - from sklearn.metrics import mean_squared_error, r2_score  # For regression metrics
 - import matplotlib.pyplot as plt  # For data visualization
-
+- from prophet import Prophet #For analysis using Prophet after installing via !pip install prophet in Jupyter Notebook.
 ## Machine Learning Models
 In this project, we aimed to predict stock prices using various machine learning models and compare their performance to a Long Short-Term Memory (LSTM) neural network model. 
 
@@ -83,7 +83,23 @@ In this project, the **closing price** was chosen as the target variable for pre
    - **Conclusion**: While traditional machine learning models like Linear Regression and XGBoost performed well in predicting stock prices, the LSTM neural network provided the most accurate predictions. This highlights the strength of LSTM in capturing temporal dependencies in stock price data, making it a superior choice for this type of time-series prediction task.
 
    **Leigh: Prophet Model on Stock Data**
+    - **Purpose**: To use the same Yahoo Finance data used to train the LSTM and train on Prophet model at the suggestion of class instructor. 
+    - **Results**: The results of Prophet model evaluation:  The model was evaluated on a set of stocks, and their performance metrics using Prophet were abysmal in comparsion to metrics results from the LSTM model.
 
+   | Facebook Prophet  | MSE     | MAE    | MAPE   | 
+   |-------------------|---------|--------|--------| 
+   | AAPL              | 5247.21 | 66.9232| 49.21% | 
+   | MSFT              | 3787.78 | 51.0889| 19.62% | 
+   | JNJ               |  634.44 | 22.7357| 13.69% | 
+   | JPM               |  576.93 | 20.9040| 15.99% |
+   | PG                | 2600.70 | 44.3451| 31.80% | 
+   | XOM               |  852.44 | 22.6048| 34.70% | 
+   | NVDA              |  265.19 | 14.5052| 87.09% |
+   | PFE               |  132.54 |  8.7898| 18.67% | 
+   | KO                |  117.81 | 10.2080| 18.81% | 
+   | TSLA              |45850.34 |188.6232| 89.02% |  
+
+   - **Conclusion**: In general, the Prophet model performed poorly compared to the LSMT model. It is evident that its performance metrics, including Mean Squared Error (MSE), Mean Absolute Error (MAE), and Mean Absolute Percentage Error (MAPE), fell significantly short compared to those achieved by the LSTM model. Across various stocks such as AAPL, MSFT, PG, NVDA, and TSLA, the Prophet model consistently exhibited higher errors and poorer accuracy, as highlighted by the provided data. The Prophet model's outcomes display its limitations in accurately forecasting stock prices compared to more complex models like LSTM in this specific dataset.
    **Priscilla: XGBoost, SVG, and LR Model on Stock Data And Consumer Data**
     - **Purpose**: Data cleanup to merge the stock data with the survey of consumers data. The rationale behind retesting the stock data model with the inclusion of new consumer features is to determine if these additional variables enhance the predictive accuracy of stock prices.
       - Consumer Features: Index of Consumer Sentiment, Index of Consumer Expectations, Index of Current Condition, Probability of Adequate Retirement Income, Probability of Increase in Stock Market in Next Year, Current Value of Stock Market Investments.
