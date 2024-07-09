@@ -1,8 +1,7 @@
 # Predicting Stock Prices Using Machine Learning
 
 ## Summary
-The purpose of this project is to predict stock prices for specific companies or a set of companies using historical stock data and related financial indicators. By leveraging machine learning techniques, particularly Long Short-Term Memory (LSTM) networks, we aim to provide investors with a tool to make informed decisions about buying or selling stocks. This project involves extracting, cleaning, and transforming historical stock data, training machine learning models, and developing an interactive application for users to predict stock prices for up to one year in advance.
-
+In this project, we aimed to predict stock prices using various machine learning models and compare their performance to a Long Short-Term Memory (LSTM) neural network model. The goal was to determine which model provides the most accurate predictions for stock prices based on historical data from Yahoo Finance and additional consumer data features. We selected ten diverse stocks: Apple (AAPL), Microsoft (MSFT), Johnson & Johnson (JNJ), JPMorgan Chase & Co. (JPM), Procter & Gamble (PG), Exxon Mobil (XOM), NVIDIA (NVDA), Pfizer (PFE), Coca-Cola (KO), and Tesla (TSLA). By incorporating different machine learning techniques, including Support Vector Regression (SVR), XGBoost, Linear Regression, and the Prophet model, we explored the strengths and weaknesses of each approach in handling time series data and capturing complex patterns in the stock market.
 ## Libraries Used
 The following libraries were used for data processing, model training, evaluation, and visualization:
 - import yfinance as yf  # For downloading stock data
@@ -20,9 +19,8 @@ The following libraries were used for data processing, model training, evaluatio
 - from sklearn.metrics import mean_squared_error, r2_score  # For regression metrics
 - import matplotlib.pyplot as plt  # For data visualization
 - from prophet import Prophet #For analysis using Prophet after installing via !pip install prophet in Jupyter Notebook.
-## Machine Learning Models
-In this project, we aimed to predict stock prices using various machine learning models and compare their performance to a Long Short-Term Memory (LSTM) neural network model. 
 
+## Machine Learning Models
 - **Prophet:** Prophet is a forecasting tool developed by Facebook. It was used in this project due to its flexibility in modeling seasonal trends, its robustness to missing data, and its ability to provide intuitive parameter tuning. Prophet is particularly useful for predicting stock prices as it can effectively capture daily, weekly, and yearly seasonality along with holidays and other recurring events.
 - **Support Vector Regression:** Support Vector Regression (SVR) is a type of Support Vector Machine (SVM) used for regression tasks. It was chosen for this project because of its ability to handle non-linear relationships in the data. SVR aims to find the best-fit line within a specified margin of tolerance, making it robust to overfitting and suitable for predicting complex patterns in stock prices.
 - **XGBoost:** XGBoost was included in this project due to its ability to handle large datasets and its strong predictive power. XGBoost builds an ensemble of decision trees in a sequential manner, optimizing for the best splits and reducing errors at each step, making it a strong candidate for stock price prediction.
@@ -54,15 +52,33 @@ In this project, the **closing price** was chosen as the target variable for pre
         
 2. **Model Training, Evaluation and Comparison**
 
-   **JMari: LSTM Neural Network Model on Stock Data**
+   ### JMari: LSTM Neural Network Model on Stock Data
    - **Purpose**: Initialize, train, and evaluate LSTM models for predicting stock prices.
      - **Key Points**:
        - Utilizes LSTM's ability to handle sequential data for accurate predictions.
        - Demonstrates meaningful predictive power with at least 75% classification accuracy or 0.80 R-squared.
        - Documents the model optimization and evaluation process.
        - Displays overall model performance.
+    - **Results**: The evaluation results show that the LSTM models performed well on both the training and test datasets for each of the ten selected stocks: AAPL, MSFT, JNJ, JPM, PG, XOM, NVDA, PFE, KO, and TSLA. The mean squared error (MSE) values are relatively low, indicating that the models can predict stock prices with a reasonable degree of accuracy.
+        - **High Accuracy:** The models achieved a high level of accuracy, with percentage accuracy ranging between 91% and 97%.
+        - **Generalization:** The models generalize well to the test data, indicating they can perform well on unseen data.
+        - **Consistency:** The consistent performance across different stocks shows the robustness of the model architecture.
+
+            | Company | Train MSE | Test MSE | Train R² | Test R² | Accuracy |
+            |---------|-----------|----------|----------|---------|----------|
+            | AAPL    | 0.0001    | 0.0004   | 0.9980   | 0.9540  | ~95.8%   |
+            | MSFT    | 0.0001    | 0.0003   | 0.9981   | 0.9848  | ~96.5%   |
+            | JNJ     | 0.0003    | 0.0004   | 0.9934   | 0.9420  | ~95.3%   |
+            | JPM     | 0.0002    | 0.0006   | 0.9947   | 0.9781  | ~95.9%   |
+            | PG      | 0.0003    | 0.0005   | 0.9956   | 0.9349  | ~94.9%   |
+            | XOM     | 0.0003    | 0.0007   | 0.9900   | 0.9349  | ~92.2%   |
+            | NVDA    | 0.0000    | 0.0002   | 0.9956   | 0.9950  | ~97.2%   |
+            | PFE     | 0.0003    | 0.0004   | 0.9900   | 0.9933  | ~97.3%   |
+            | KO      | 0.0005    | 0.0007   | 0.9873   | 0.9081  | ~91.4%   |
+            | TSLA    | 0.0002    | 0.0006   | 0.9960   | 0.9608  | ~94.5%   |
+
         
-   **Antoine: XGBoost, SVG, and LR Model on Stock Data**
+   ### Antoine: XGBoost, SVG, and LR Model on Stock Data
    - **Purpose**: To use the same Yahoo Finance data used to train the LSTM and train on other regression models. 
    - **Results**: The results of our model evaluations are summarized below. The models were evaluated on a set of stocks, and their performance metrics are compared. 
    - **Models**:
@@ -82,7 +98,7 @@ In this project, the **closing price** was chosen as the target variable for pre
     
    - **Conclusion**: While traditional machine learning models like Linear Regression and XGBoost performed well in predicting stock prices, the LSTM neural network provided the most accurate predictions. This highlights the strength of LSTM in capturing temporal dependencies in stock price data, making it a superior choice for this type of time-series prediction task.
 
-   **Leigh: Prophet Model on Stock Data**
+   ### Leigh: Prophet Model on Stock Data
     - **Purpose**: To use the same Yahoo Finance data used to train the LSTM and train on Prophet model at the suggestion of class instructor. 
     - **Results**: The results of Prophet model evaluation:  The model was evaluated on a set of stocks, and their performance metrics using Prophet were abysmal in comparsion to metrics results from the LSTM model.
 
@@ -102,7 +118,7 @@ In this project, the **closing price** was chosen as the target variable for pre
    - **Conclusion**: In general, the Prophet model performed poorly compared to the LSMT model. It is evident that its performance metrics, including Mean Squared Error (MSE), Mean Absolute Error (MAE), and Mean Absolute Percentage Error (MAPE), fell significantly short compared to those achieved by the LSTM model. Across various stocks such as AAPL, MSFT, PG, NVDA, and TSLA, the Prophet model consistently exhibited higher errors and poorer accuracy, as highlighted by the provided data. The Prophet model's outcomes display its limitations in accurately forecasting stock prices compared to more complex models like LSTM in this specific dataset.
   
      
-   **Priscilla: XGBoost, SVG, and LR Model on Stock Data And Consumer Data**
+   ### Priscilla: XGBoost, SVG, and LR Model on Stock Data And Consumer Data
     - **Purpose**: Data cleanup to merge the stock data with the survey of consumers data. The rationale behind retesting the stock data model with the inclusion of new consumer features is to determine if these additional variables enhance the predictive accuracy of stock prices.
       - Consumer Features: Index of Consumer Sentiment, Index of Consumer Expectations, Index of Current Condition, Probability of Adequate Retirement Income, Probability of Increase in Stock Market in Next Year, Current Value of Stock Market Investments.
     - **Models**:
@@ -228,6 +244,7 @@ Streamlit is a powerful and easy-to-use framework for building interactive web a
     - **Additional Point**: Handles user inputs and displays predictions in a user-friendly manner.
 
 ## Conclusion: Model Comparison
+Through our comprehensive analysis, we found that the LSTM neural network outperformed all other models in predicting stock prices. The LSTM model demonstrated superior predictive accuracy, with lower Mean Squared Error (MSE) and higher R-squared (R²) values across the majority of the stocks. Traditional machine learning models like Linear Regression and XGBoost performed well, providing solid baseline predictions, but they were unable to match the LSTM's ability to capture temporal dependencies and long-term patterns in the data. The SVR model showed adequate performance for some stocks but generally lagged behind in accuracy compared to LSTM and XGBoost. The Prophet model, while useful for capturing seasonality and trends, fell significantly short in accuracy, highlighting its limitations in stock price prediction. Overall, our findings indicate that the LSTM neural network is the most effective model for this type of time-series prediction task, offering robust and reliable predictions for stock prices. Future work could focus on fine-tuning the LSTM model and exploring additional consumer and economic indicators to further enhance prediction accuracy.
 
 ## The Best Model: LSTM 
 ### Pros
