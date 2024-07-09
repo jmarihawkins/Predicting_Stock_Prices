@@ -3,14 +3,12 @@ import datetime
 import numpy as np
 import pandas as pd
 import pickle
-import plotly.express as px
+import plotly.graph_objects as go
 from keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
 import yfinance as yf
 
-# Load the models and scalers
-models = {}
-scalers = {}
+# List of tickers and company names
 tickers = ['AAPL', 'MSFT', 'JNJ', 'JPM', 'PG', 'XOM', 'NVDA', 'PFE', 'KO', 'TSLA']
 company_names = {
     'AAPL': 'Apple (AAPL)',
@@ -25,11 +23,6 @@ company_names = {
     'TSLA': 'Tesla (TSLA)'
 }
 
-for ticker in tickers:
-    models[ticker] = load_model(f'Models/{ticker}_model.h5')
-    with open(f'Scalers/{ticker}_scaler.pkl', 'rb') as f:
-        scalers[ticker] = pickle.load(f)
-
 # Load historical data for all tickers
 historical_data = {}
 for ticker in tickers:
@@ -37,28 +30,38 @@ for ticker in tickers:
 
 # Function to get prediction
 def predict_stock_price(ticker, end_date):
-    model = models[ticker]
-    scaler = scalers[ticker]
+    # Load the model and scaler for the selected ticker
+    model = load_model(f'Models/{ticker}_model.h5')
+    with open(f'Scalers/{ticker}_scaler.pkl', 'rb') as f:
+        scaler = pickle.load(f)
     
-    # Get historical data for lookback period
-    start_date = pd.Timestamp.today()
-    historical_prices = historical_data[ticker].loc[:start_date]['Close'].values.reshape(-1, 1)
+    # Get today's date
+    start_date = datetime.datetime.today().date()
+    required_lookback_days = 90
     
+    # Ensure 90 days of data
+    hist_data = historical_data[ticker].loc[:start_date]['Close']
+    if len(hist_data) < required_lookback_days:
+        raise ValueError(f"Not enough historical data to meet the {required_lookback_days}-day lookback period.")
+    historical_prices = hist_data.tail(required_lookback_days).values.reshape(-1, 1)
+
     # Scale the historical data
     scaled_data = scaler.transform(historical_prices)
     
-    predictions = []
+    # Prepare data for batch prediction
+    X_pred = np.reshape(scaled_data[-required_lookback_days:], (1, required_lookback_days, 1))
     date_range = pd.date_range(start=start_date, end=end_date)
+    n_days = len(date_range)
     
-    for _ in range(len(date_range)):
-        X_pred = np.reshape(scaled_data[-1825:], (1, 1825, 1))
+    predictions = np.zeros(n_days)
+    for i in range(n_days):
         pred_price = model.predict(X_pred, verbose=0)
         pred_price_unscaled = scaler.inverse_transform(pred_price)
+        predictions[i] = pred_price_unscaled[0, 0]
         
-        predictions.append(pred_price_unscaled[0, 0])
-        
-        # Append the predicted price to the scaled data for the next prediction
-        scaled_data = np.append(scaled_data, scaler.transform(pred_price_unscaled), axis=0)
+        # Append the predicted price to the scaled data for the next batch prediction
+        scaled_data = np.append(scaled_data[1:], scaler.transform(pred_price_unscaled), axis=0)
+        X_pred = np.reshape(scaled_data[-required_lookback_days:], (1, required_lookback_days, 1))
 
     # Create a DataFrame for the results
     results = pd.DataFrame({
@@ -66,6 +69,20 @@ def predict_stock_price(ticker, end_date):
         'Predicted Close Price': predictions
     })
 
+    # Calculate price changes
+    results['Predicted Price Change'] = results['Predicted Close Price'].diff().fillna(0)
+    results['Predicted Price Change (%)'] = results['Predicted Close Price'].pct_change().fillna(0) * 100
+    results['Predicted Price Change'] = results.apply(
+        lambda row: f"${row['Predicted Price Change']:.2f} ({row['Predicted Price Change (%)']:.2f}%)", axis=1)
+
+    # Calculate overall changes from the first predicted value
+    first_value = results['Predicted Close Price'].iloc[0]
+    results['Overall Change'] = results['Predicted Close Price'].apply(
+        lambda x: f"${x - first_value:.2f} ({((x - first_value) / first_value) * 100:.2f}%)"
+    )
+
+    results.drop(columns=['Predicted Price Change (%)'], inplace=True)
+    
     return results
 
 # Streamlit app
@@ -74,7 +91,7 @@ st.title('Stock Price Prediction App')
 # Dropdown for selecting company
 selected_ticker = st.selectbox('Select Company', [company_names[ticker] for ticker in tickers])
 
-# Fixed start date
+# Use today's date as the start date
 start_date = datetime.date.today()
 st.write(f"Start Date: {start_date}")
 
@@ -95,15 +112,57 @@ if st.button('Predict'):
             st.stop()
         elif proceed == 'Proceed':
             predictions = predict_stock_price(selected_ticker_code, end_date)
-            fig = px.line(predictions, x='Date', y='Predicted Close Price', title=f'Predicted Stock Prices for {selected_ticker}')
-            fig.update_traces(mode='lines+markers', hovertemplate='Date: %{x}<br>Price: %{y:.2f}')
+            fig = go.Figure()
+
+            # Add traces for positive and negative changes
+            fig.add_trace(go.Scatter(
+                x=predictions['Date'],
+                y=predictions['Predicted Close Price'],
+                mode='lines+markers',
+                name='Predicted Close Price',
+                marker=dict(
+                    color=['green' if x >= 0 else 'red' for x in predictions['Predicted Close Price'].diff().fillna(0)],
+                    size=8,
+                    line=dict(width=1)
+                )
+            ))
+
+            fig.update_layout(
+                title=f'Predicted Stock Prices for {selected_ticker}',
+                xaxis_title='Date',
+                yaxis_title='Predicted Close Price',
+                template='plotly_dark'
+            )
+
             st.plotly_chart(fig)
+            st.write(f"Predicted Stock Prices for {selected_ticker}")
             st.write(predictions)
     else:
         predictions = predict_stock_price(selected_ticker_code, end_date)
-        fig = px.line(predictions, x='Date', y='Predicted Close Price', title=f'Predicted Stock Prices for {selected_ticker}')
-        fig.update_traces(mode='lines+markers', hovertemplate='Date: %{x}<br>Price: %{y:.2f}')
+        fig = go.Figure()
+
+        # Add traces for positive and negative changes
+        fig.add_trace(go.Scatter(
+            x=predictions['Date'],
+            y=predictions['Predicted Close Price'],
+            mode='lines+markers',
+            name='Predicted Close Price',
+            marker=dict(
+                color=['green' if x >= 0 else 'red' for x in predictions['Predicted Close Price'].diff().fillna(0)],
+                size=8,
+                line=dict(width=1)
+            )
+        ))
+
+        fig.update_layout(
+            title=f'Predicted Stock Prices for {selected_ticker}',
+            xaxis_title='Date',
+            yaxis_title='Predicted Close Price',
+            template='plotly_dark'
+        )
+
         st.plotly_chart(fig)
+        st.write(f"Predicted Stock Prices for {selected_ticker}")
         st.write(predictions)
 
 
